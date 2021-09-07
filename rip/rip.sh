@@ -5,8 +5,11 @@
 
 for i in $(seq 1 $1)
 do
+    eject $2
     echo -ne "\aInsert disc $i and press ENTER to continue..."
     read
+    eject -t $2
+    sleep 15 # TODO: check for CD present (mounted?) in drive
     
     echo "Ripping disc $i"
     cdparanoia -qB -d $2
@@ -19,6 +22,7 @@ do
     echo "Done with disc $i"
 done
 
+eject $2
 echo "Encoding files to FLAC"
 for file in *.wav
 do
